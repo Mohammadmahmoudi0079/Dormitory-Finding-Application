@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock%}
+{%block content %}
+    {% if message != None %}
+    <p>{{message}}</p>
+    {% endif %}
+ <!--   <a href="/admin/add_dorm"><button>Add Dorm</button></a>
+    <a href="/admin/modify_dorm"><button>Modify Dorm DB</button></a> -->
+    <a href="/admin_logout"><button>Logout</button></a>
+    <a href="/admin/requests"><button>Requests</button></a>
+    <a href="/admin/approved_req"><button>Approved Requests</button></a>
+{% endblock%}

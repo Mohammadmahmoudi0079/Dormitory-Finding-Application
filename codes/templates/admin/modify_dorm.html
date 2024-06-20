@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Book Requests{% endblock%}
+{%block content %}
+    <h1>Modify Dorm Information</h1>
+    
+    <form method="post" action="/owner/modify_dorm" >
+        <input type="hidden" name="action" value="search">
+        <label for="dorm_name">Dorm Name:</label>
+        <input type="text" id="dorm_name" name="dorm_name" required value="{{dorm.name}}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if dorm %}
+      
+    <form method="post" action="/owner/modify_dorm">
+    <input type="hidden" name="action" value="update">
+    <input type="hidden" name="dorm_id" value="{{ dorm.dorm_id }}">
+
+    <label for="availability">Availability:</label>
+    <input type="text" id="availability" name="availability" value="{{ dorm.availability }}" required>
+    
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" value="{{ dorm.price }}" required>
+    
+    <label for="meal_number">Meal Number:</label>
+    <input type="number" id="meal_number" name="meal_number" value="{{ dorm.meal_number }}" required>
+    
+    <label for="cleaning_plan">Cleaning Plan:</label>
+    <input type="number" id="cleaning_plan" name="cleaning_plan" value="{{ dorm.cleaning_plan }}" required>
+
+    <label for="room_population">Room Population:</label>
+    <input type="number" id="room_population" name="room_population" value="{{ dorm.room_population }}" required>
+
+    <label for="kitchen">Kitchen:</label>
+    <input type="checkbox" id="kitchen" name="kitchen" {{ 'checked' if dorm.kitchen else '' }}>
+
+    <label for="laundry">Laundry:</label>
+    <input type="checkbox" id="laundry" name="laundry" {{ 'checked' if dorm.laundry else '' }}>
+
+    <label for="park">Park:</label>
+    <input type="checkbox" id="park" name="park" {{ 'checked' if dorm.park else '' }}>
+
+    <label for="wifi">Wi-Fi:</label>
+    <input type="checkbox" id="wifi" name="wifi" {{ 'checked' if dorm.wifi else '' }}>
+
+    <label for="studying_hall">Studying Hall:</label>
+    <input type="checkbox" id="studying_hall" name="studying_hall" {{ 'checked' if dorm.studying_hall else '' }}>
+
+    <p><button type="submit">Update Request</button></p>
+</form>
+
+
+       
+        <form method="post" action="/owner/modify_dorm">
+            <input type="hidden" name="action" value="delete">
+            <p></p><input type="hidden" name="dorm_id" value="{{ dorm.dorm_id }}"></p>
+            <button type="submit">Delete</button>
+        </form>
+        
+    {% endif %}
+    <p><a href="/owner/owner_enter"><button>Back</button></a></p>
+
+    
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    {% if success %}
+        <p style="color: green;">{{ success }}</p>
+    {% endif %}
+
+{% endblock %}

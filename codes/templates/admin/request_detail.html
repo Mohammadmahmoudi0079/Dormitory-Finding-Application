@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Request Details{% endblock%}
+
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+{%block content %}
+    <div class="container mt-5">
+        <h2>Request Detail</h2>
+        <p><strong>Type:</strong> {{ req_type }}</p>
+        {% if req_type == 'update' %}
+        <p><strong>ID:</strong> {{ request_data.update_req_id }}</p>
+        {% endif %}
+        {% if req_type == 'add' %}
+        <p><strong>ID:</strong> {{ request_data.add_req_id }}</p>
+        {% endif %}
+        {% if req_type == 'delete' %}
+        <p><strong>ID:</strong> {{ request_data.delete_req_id }}</p>
+        {% endif %}
+        <p><strong>Details:</strong></p>
+        <ul>
+            {% if req_type == 'update' %}
+                <li>Dorm ID: {{ request_data.dorm_id }}</li>
+                <li>Price: {{ request_data.price }}</li>
+                <li>Meal Number: {{ request_data.meal_number }}</li>
+                <li>Cleaning Plan: {{ request_data.cleaning_plan }}</li>
+                <li>Room Population: {{ request_data.room_population }}</li>
+                <li>Kitchen: {{ request_data.kitchen }}</li>
+                <li>Laundry: {{ request_data.laundry }}</li>
+                <li>Park: {{ request_data.park }}</li>
+                <li>WiFi: {{ request_data.wifi }}</li>
+                <li>Studying Hall: {{ request_data.studying_hall }}</li>
+            {% elif req_type == 'delete' %}
+                <li>Dorm ID: {{ request_data.dorm_id }}</li>
+            {% elif req_type == 'add' %}
+                <li>Name: {{ request_data.name }}</li>
+                <li>State: {{ request_data.state }}</li>
+                <li>City: {{ request_data.city }}</li>
+                <li>Sex: {{ request_data.sex }}</li>
+                <li>Price: {{ request_data.price }}</li>
+                <li>Meal Number: {{ request_data.meal_number }}</li>
+                <li>Cleaning Plan: {{ request_data.cleaning_plan }}</li>
+                <li>Room Population: {{ request_data.room_population }}</li>
+                <li>Kitchen: {{ request_data.kitchen }}</li>
+                <li>Laundry: {{ request_data.laundry }}</li>
+                <li>Park: {{ request_data.park }}</li>
+                <li>WiFi: {{ request_data.wifi }}</li>
+                <li>Studying Hall: {{ request_data.studying_hall }}</li>
+                <li>Stars: {{ request_data.stars }}</li>
+                <li>Location: {{ request_data.location }}</li>
+                <li>Capacity: {{ request_data.capacity }}</li>
+                <li>Availability: {{ request_data.availability }}</li>
+                <li>Latest Check-in: {{ request_data.latest_check_in }}</li>
+            {% else %}
+                <li>No detailed information available.</li>
+            {% endif %}
+        </ul>
+        {% if req_type == 'delete' %}
+        <a href="{{ url_for('admin.approve_req', req_id=request_data.delete_req_id, req_type=req_type) }}" class="btn btn-success">Approve</a>
+        {% endif %}
+        {% if req_type == 'update' %}
+        <a href="{{ url_for('admin.approve_req', req_id=request_data.update_req_id, req_type=req_type) }}" class="btn btn-success">Approve</a>
+        {% endif %}
+        {% if req_type == 'add' %}
+        <a href="{{ url_for('admin.approve_req', req_id=request_data.add_req_id, req_type=req_type) }}" class="btn btn-success">Approve</a>
+        {% endif %}
+        <a href="{{ url_for('admin.view_requests') }}" class="btn btn-secondary">Back to Requests</a>
+    </div>
+{% endblock %}

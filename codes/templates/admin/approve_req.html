@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Requests{% endblock%}
+{%block content %}
+    <div class="container mt-5">
+    <h2>Approve Request</h2>
+    <p>You are about to approve Request #{{ req_id }} of type {{ req_type }}.</p>
+    <form action="{{ url_for('admin.approve_req', req_id=req_id, req_type=req_type) }}" method="post">
+        <button type="submit" class="btn btn-success">Approve</button>
+        <a href="{{ url_for('admin.delete_request_from_list', req_id=request_id) }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

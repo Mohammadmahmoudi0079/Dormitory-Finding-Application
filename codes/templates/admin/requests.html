@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Requests{% endblock%}
+{% block content %}
+    <div >
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    
+    <div class="container mt-5">
+    <h2>Requests Log</h2>
+    <div class="list-group">
+    
+
+
+        {% for req in requests %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('admin.request_detail', req_id=req.request_id, req_type=req.request_type) }}">
+                    Request #{{ req.req_id }} - {{ req.request_type }} at {{ req.created_at }}
+                </a>
+                <form action="{{ url_for('admin.delete_request_from_list', req_id=req.req_id) }}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        {% else %}
+            <p class="list-group-item">No requests found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

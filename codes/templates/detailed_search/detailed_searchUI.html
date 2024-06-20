@@ -1,0 +1,200 @@
+{% extends "base.html " %}
+{% block title %}Detailed Search{% endblock %}
+{% block content %}
+<div >
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    </div>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 30%;
+        height: fit-content;
+        padding: 10px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #0056b3;
+        box-shadow: 0 0 8px rgba(0, 123, 255, .25);
+    }
+
+    .btn {
+        width: 30%;
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color .15s ease-in-out;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .checkbox-label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .checkbox-label input {
+        margin-right: 5px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(2.25rem + 2px);
+    }
+
+    .search-form {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    button[type="submit"] {
+        width: 30%;
+    }
+</style>
+
+
+<form action="/detailed_search" method="POST" class="search-form">
+    <div class="form-group">
+        <label for="sex">Sex:</label>
+        <select id="sex" name="sex" class="form-control">
+            <option value="">Select Sex</option>
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="state-dropdown">State:</label>
+        <select id="state-dropdown" name="state" class="form-control">
+            <option value="">Select a State</option>
+            {% for state in data.keys() %}
+            <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="city-dropdown">City:</label>
+        <select id="city-dropdown" name="city" multiple class="form-control">
+            <option value="">Select a City</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="meal-number">Meal Number:</label>
+        <select id="meal-number" name="meal_number" class="form-control">
+            <option value="">Select Meal Number</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="cleaning-plan">Weekly Cleaning Plan:</label>
+        <select id="cleaning-plan" name="cleaning_plan" class="form-control">
+            <option value="">Select Cleaning Plan</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="room-population">Room Population:</label>
+        <input type="number" id="room-population" name="room_population" min="1" max="8" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="min-price">Minimum Price:</label>
+        <input type="number" id="min-price" name="min_price" step="0.01" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="max-price">Maximum Price:</label>
+        <input type="number" id="max-price" name="max_price" step="0.01" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="latest_check_in">Latest Check-in:</label>
+        <input type="time" id="latest_check_in" name="latest_check_in" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="stars">Minimum Star Rate:</label>
+        <input type="number" id="stars" name="stars" min="0" max="5" step="0.1" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label>Amenities:</label><br>
+        <input type="checkbox" id="kitchen" name="amenities[]" value="kitchen">
+        <label for="kitchen">Kitchen</label><br>
+        <input type="checkbox" id="laundry" name="amenities[]" value="laundry">
+        <label for="laundry">Laundry</label><br>
+        <input type="checkbox" id="park" name="amenities[]" value="park">
+        <label for="park">Park</label><br>
+        <input type="checkbox" id="wifi" name="amenities[]" value="wifi">
+        <label for="wifi">WiFi</label><br>
+        <input type="checkbox" id="studying_hall" name="amenities[]" value="studying_hall">
+        <label for="studying_hall">Studying Hall</label><br>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div id="data-holder" data-states='{{ data | tojson | safe }}'></div>
+<script>
+    var data = JSON.parse(document.getElementById('data-holder').getAttribute('data-states'));
+
+    document.getElementById('state-dropdown').addEventListener('change', function() {
+        var state = this.value;
+        var cityDropdown = document.getElementById('city-dropdown');
+
+        // Clear existing options in city dropdown
+        cityDropdown.innerHTML = '<option value="">All cities</option>';
+
+        // Add new options to city dropdown based on selected state
+        if (state in data) {
+            data[state].forEach(function(city) {
+                var newOption = new Option(city, city);
+                cityDropdown.add(newOption);
+            });
+        }
+    });
+</script>
+{% endblock %}

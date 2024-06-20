@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Modify Dorm{% endblock%}
+{%block content %}
+<div >
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</div>
+   
+<body>
+    <h1>Modify Dorm</h1>
+
+    
+    <form method="POST">
+        <input type="hidden" name="action" value="search">
+        <label for="dorm_name">Search Dorm by Name:</label>
+        <input type="text" id="dorm_name" name="dorm_name">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if dorm %}
+    
+    <form method="POST">
+        <input type="hidden" name="dorm_id" value="{{ dorm.dorm_id }}">
+        <label for="name">Name: <p>{{dorm.name}}</p></label>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" value="{{ dorm.price }}">
+
+        <label for="availability">Availability:</label>
+        <input type="number" id="availability" name="availability" value="{{ dorm.availability }}">
+
+        <label for="meal_number">Number of Meals:</label>
+        <input type="number" id="meal_number" name="meal_number" value="{{ dorm.meal_number }}">
+
+        <label for="cleaning_plan">Cleaning Plan:</label>
+        <input type="number" id="cleaning_plan" name="cleaning_plan" value="{{ dorm.cleaning_plan }}">
+
+        <label for="room_population">Room Population:</label>
+        <input type="number" id="room_population" name="room_population" value="{{ dorm.room_population }}">
+
+        <label><input type="checkbox" name="kitchen" {{ 'checked' if dorm.kitchen }}> Kitchen</label>
+        <label><input type="checkbox" name="laundry" {{ 'checked' if dorm.laundry }}> Laundry</label>
+        <label><input type="checkbox" name="park" {{ 'checked' if dorm.park }}> Park</label>
+        <label><input type="checkbox" name="wifi" {{ 'checked' if dorm.wifi }}> WiFi</label>
+        <label><input type="checkbox" name="studying_hall" {{ 'checked' if dorm.studying_hall }}> Studying Hall</label>
+
+        <button type="submit" name="action" value="update">Update</button>
+        <button type="submit" name="action" value="delete">Delete</button>
+    </form>
+    {% endif %}
+
+{% endblock %}

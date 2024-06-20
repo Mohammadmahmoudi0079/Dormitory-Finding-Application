@@ -1,0 +1,81 @@
+{% extends "base.html " %}
+{% block title %}Search Results{% endblock %}
+{% block content %}
+<div >
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    </div>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .dorm-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            transition: box-shadow 0.3s;
+        }
+        .dorm-container:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .dorm-title {
+            color: #333;
+            text-decoration: none;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            line-height: 1.5;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #004494;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if results %}
+        <div>
+            {% for dorm in results %}
+                <div class="dorm-container">
+                    <h2>{{ dorm.name }}</h2>
+                    <p><strong>State:</strong> {{ dorm.state }}</p>
+                    <p><strong>City:</strong> {{ dorm.city }}</p>
+                    <p><strong>Sex:</strong> {{ dorm.sex }}</p>
+                    <p><strong>Price:</strong> ${{ dorm.price }}</p>
+                    <p><strong>Stars:</strong> {{ dorm.stars }}</p>
+                    <p><strong>Availability:</strong> {{ dorm.availability }}</p>
+                   <a href="{{ url_for('DD_page.dormitory_detail', dorm_id=dorm.id, owner_id=dorm.owner_id) }}" class="button">View Details</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No results found.</p>
+        <a href="/detailed_search" class="button">Back</a>
+    {% endif %}
+{% endblock %}

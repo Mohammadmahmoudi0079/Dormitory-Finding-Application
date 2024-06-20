@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Add Dorm{% endblock%}
+{%block content %}
+    <form action="#", method="post">
+        <p><label for="name">Dorm's Name:  </label><input type="text" name = "name" placeholder="Name" value="{{name if name}}" ></p>
+        <label for="state-dropdown">State :</label>
+        <select id="state-dropdown" name="state">
+            <option value="">Select a State</option>
+            {% for state in data.keys() %}
+            <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="city-dropdown">City :</label>
+        <select id="city-dropdown" name="city">
+            <option value="">Select a City</option>
+        </select>
+        <br>
+        
+
+        <p><label for="price">Price:  </label><input type="number" name = "price" placeholder="Price" value="{{price if price}}"></p>
+        <p><label for="stars">Stars:  </label> <input type="number" name = "stars" step="0.1" placeholder="Stars" value="{{stars if stars}}"></p>
+        <p><label for="capacity">Capacity:  </label><input type="number" name = "capacity" placeholder="Capacity" value="{{capacity if capacity}}"></p>
+        <p><label for="availability">Availability:  </label><input type="number" name = "availability" placeholder="Availability" value="{{availability if availability}}"></p>
+        <p><label for="location">Location:  </label><input type="url" name = "location" placeholder="Location Url" value="{{location if location}}"></p>
+        <p><label for="cleaning_plan">Cleaning Plan:  </label><input type="number" name = "cleaning_plan" placeholder="Cleaning per week" value="{{cleaning_plan if cleaning_plan}}"></p>
+        <p><label for="room_population">Room Population:  </label><input type="number" name = "room_population" placeholder="Number of bed in room" value="{{room_population if room_population}}"></p>
+        <p><label for="latest_check_in">Latest Ckeck_In:  </label><input type="number" name = "latest_check_in"  value="{{latest_check_in if latest_check_in}}" max="24" ></p>
+        <p><label for="sex">Sex:  </label>
+        <select name="sex" id="sex">
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+        </select></p>
+
+        <p></p><label for="meal_number">Meal Number:  </label>
+        <select name="meal_number" id="meal_number">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select></p>
+        
+        <p><label for="kitchen">kitchen  :   </label> <input type="checkbox" name = "kitchen"></p>
+        <p> <label for="laundry">Laundry  :   </label><input type="checkbox" name = "laundry"></p>
+        <p><label for="park">Park  :   </label><input type="checkbox" name = "park"></p>
+        <p><label for="wifi">wifi  :   </label> <input type="checkbox" name = "wifi"></p>
+        <p><label for="studying_hall">tudying Hall  :   </label><input type="checkbox" name = "studying_hall"></p>
+
+        <p> <input type="submit" name = "submit"></p>
+    </form>
+
+    <div id="data-holder" data-states='{{ data | tojson | safe }}'></div>
+    <script>
+        var data = JSON.parse(document.getElementById('data-holder').getAttribute('data-states'));
+
+    document.getElementById('state-dropdown').addEventListener('change', function() {
+        var state = this.value;
+        var cityDropdown = document.getElementById('city-dropdown');
+        
+        
+        cityDropdown.innerHTML = '<option value="">Select a City</option>';
+        
+        
+        if(state in data) {
+            data[state].forEach(function(city) {
+                var newOption = new Option(city, city);
+                cityDropdown.add(newOption);
+            });
+        }
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html " %}
+{% block title %}Dorm Details{% endblock %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+    <a href="logout"><button>Logout</button></a>
+    <a href="ownerUI"><button>Owner Page</button></a>
+    {% else %}
+    <a href="{{ url_for('owner.login', next=request.path) }}" class="button">Log In</a> or
+    <a href="{{ url_for('owner.register', next=request.path) }}" class="button">Register</a>
+    {% endif %}
+
+{% endblock %}

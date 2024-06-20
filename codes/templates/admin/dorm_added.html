@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Added Dorm{% endblock%}
+{%block content %}
+    {% if success %}
+        <div class="alert alert-success" role="alert">
+            Dorm added successfully!
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            Failed to add dorm: {{ error }}
+        </div>
+    {% endif %}
+
+    {% if dorm %}
+        <h2>Newly Added Dorm Information:</h2>
+        <p>Name: {{ dorm.name }}</p>
+        <p>State: {{ dorm.state }}</p>
+       
+    {% endif %}
+
+    <a href="{{ url_for('admin.admin') }}" class="btn btn-primary">Back to Admin Page</a>
+{% endblock %}

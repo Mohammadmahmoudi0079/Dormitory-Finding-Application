@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Approved Requests{% endblock%}
+{% block content %}
+    <div >
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashed-messages">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    </div>
+
+    
+    <div class="container mt-5">
+    <h2>Approved Requests:</h2>
+    <div class="list-group">
+    
+
+
+        {% for req in approved_items %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                    Request #{{ req.approved_req_id }} - Dorm ID: {{ req.approve_dorm_id }} Owner ID: {{ req.approve_owner_id }} approved at {{req.approve_date}}
+                </a>
+                <form action="{{ url_for('admin.delete_approval_from_list', req_id=req.approved_req_id) }}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        {% else %}
+            <p class="list-group-item">No Approval found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
